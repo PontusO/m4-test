@@ -13,35 +13,54 @@
 				<Option compiler="armelfgcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../../../../funstuff/cortex/stellarisware/" />
 				</Compiler>
+				<Linker>
+					<Add library="../../../../funstuff/cortex/stellarisware/driverlib/gcc-cm4f/libdriver-cm4f.a" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="/home/pontuso/sat/bin/arm-none-eabi-objcopy -O binary default/m4-test.elf m4-test.bin" />
+					<Add after="lm4flash m4-test.bin" />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-g" />
-			<Add option="-O2" />
-			<Add option="-fno-common" />
-			<Add option="-mcpu=arm7tdmi" />
-			<Add option="-DEK_AT91SAM7A3" />
-			<Add option="-D__NO_CTOR_DTOR_SUPPORT__" />
-			<Add option="-DUSE_IRQ" />
+			<Add option="-mcpu=cortex-m4" />
+			<Add option="-mfpu=fpv4-sp-d16" />
+			<Add option="-mfloat-abi=softfp" />
+			<Add option="-ffunction-sections" />
+			<Add option="-fdata-sections" />
+			<Add option="-MD" />
+			<Add option="-std=c99" />
+			<Add option="-c" />
+			<Add option="-DPART_LM4F120H5QR" />
+			<Add option="-DTARGET_IS_BLIZZARD_RA1" />
 			<Add directory="src" />
 			<Add directory="h" />
 		</Compiler>
 		<Linker>
 			<Add option="-s" />
-			<Add option="-Wl,-Map,map.txt" />
-			<Add option="-mcpu=arm7tdmi" />
+			<Add option="-nostartfiles" />
+			<Add option="--entry ResetISR" />
 			<Add option="-T ld/target.ld" />
 		</Linker>
-		<Unit filename="h/at91sam7a3.h" />
-		<Unit filename="h/sam7a3ek.h" />
 		<Unit filename="ld/target.ld" />
-		<Unit filename="ld/targetRAM.ld" />
+		<Unit filename="src/drivers/buttons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/drivers/buttons.h" />
+		<Unit filename="src/drivers/rgb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/drivers/rgb.h" />
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/vectors.S" />
+		<Unit filename="src/startup_gcc.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
